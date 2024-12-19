@@ -14,10 +14,10 @@ print()
 print("Kelompok Daspro".center(60))
 print()
 print("Ketua    : Dias Havits / 19241041")
-print("Anggota  : Ramdhan / 1924")
-print("         : Anggraini S / 1924")
-print("         : Arka N / 19241186")
-print("         : Muhammad Arya D.A / 1924")
+print("Anggota  : Muhammad Ramdhan M. / 19241129")
+print("         : Anggraini S. / 19240838")
+print("         : Arka N. / 19241186")
+print("         : Muhammad Arya D.A / 19241012")
 print()
 
 def show_data():
@@ -25,7 +25,7 @@ def show_data():
         show = input("Tampilkan Data Team [Y/T] : ").lower()
         if show == 'y':
             print("Nama\t: Dias H.")
-            print("NIM\t: 1924")
+            print("NIM\t: 19241041")
             print("Prodi\t: Sistem Informasi")
             print("Kelas\t: 19.1B.13")
             print("Posisi\t: Ketua")
