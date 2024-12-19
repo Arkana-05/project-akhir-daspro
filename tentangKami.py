@@ -6,18 +6,18 @@ baris = ("-")*60
 print() 
 print("Program pengadaan barang".upper().center(60)) 
 #menampilkan kata program ... dengan huruf kapital semua(upper) dan di setting ada di tengah dengan code center(60), angka 60 di samakan dengan banyaknya garis/baris di atas. 
-print("PT RADAR IT PROGRAM".center(60))
+print("PT RADAR IT".center(60))
 print("Tahun 2024".center(60))
 print(garis) #menampilkan isi dari variable garis
 print()
 
 print("Kelompok Daspro".center(60))
 print()
-print("Ketua    : Dias Havits / 1924")
-print("Anggota  : Ramdhan / 1924")
-print("         : Anggraini S / 1924")
-print("         : Arka N / 19241186")
-print("         : Muhammad Arya D.A / 1924")
+print("Ketua    : Dias Havits / 19241041")
+print("Anggota  : Muhammad Ramdhan M. / 19241129")
+print("         : Anggraini S. / 19240838")
+print("         : Arka N. / 19241186")
+print("         : Muhammad Arya D.A / 19241012")
 print()
 
 def show_data():
