@@ -1,4 +1,4 @@
-import getpass
+# import getpass
 # variabel untuk menampilkan = & - sebanyak 60
 garis = ("=")*60
 baris = ("-")*60
@@ -14,7 +14,8 @@ print()
 
 while True:
     user = input("\t User \t\t: ")
-    password = getpass.getpass("\t Password \t: ")
+    password = input("\t Password \t: ")
+    # password = getpass.getpass("\t Password \t: ")
     
     if user == "Master" or user == "master" and password == "ptdigi" or password == "PTDIGI":
         import menu
