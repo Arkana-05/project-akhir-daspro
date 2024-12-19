@@ -84,6 +84,8 @@ def show_data(db, pdf_file):
         print("LAPORAN DATA BARANG".center(60))
         print()
         headers = ["Kode", "Nama Barang", "Quantity", "Harga Satuan", "Total"]
+
+        # Format data untuk kolom Harga Satuan dan Total ke format Rupiah dengan pemisah titik
         formatted_result = [
             [
                 row[0], 
@@ -93,12 +95,16 @@ def show_data(db, pdf_file):
                 f"Rp.{int(row[4]):,}".replace(",", ".")   # Format Total
             ] 
             for row in result
+            # memproses setiap elemen dalam result satu per satu,
         ]
 
+        # Gabungkan header dengan data
         table_data = [headers] + formatted_result
+        
+        # Cetak tabel dengan format Rupiah
         print(tabulate(formatted_result, headers=headers, tablefmt="pretty"))
 
-        # Menjumlahkan total dari semua barang
+        # menjumlahkan semua nilai di kolom terakhir (kolom total) dari variable result
         total_keseluruhan = sum(int(column[4]) for column in result)  # column[4] adalah kolom 'total' berdasarkan tabel yang ada di database
         
         # Menampilkan total keseluruhan di bawah tabel
