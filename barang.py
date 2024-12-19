@@ -173,7 +173,7 @@ def show_menu(db):
     while True:  # Perulangan menu utama
         perintah = input("Tampilkan Menu [Y/T] : ").lower()
         if perintah == 'y':
-            print("Menu".center(60))
+            print("Aksi".center(60))
             print(baris)
             print("1. Tambah Data")
             print("2. Tampilkan Data")
@@ -206,6 +206,9 @@ def show_menu(db):
             if perintah == 'y':
                 import menu
                 menu.show_menu()
+            elif perintah == "t":
+                print("Mau kemana sebetulnya toh😥")
+                show_menu(db)
             else:
                 print("Mau kemana sebetulnya toh😥")
                 show_menu(db)
