@@ -39,7 +39,7 @@ def create_pdf(data, total_keseluruhan, pdf_file):
     width, height = letter
     # Menambahkan teks ke halaman
     c.drawString(210, 750, "PROGRAM PENGADAAN BARANG")
-    c.drawString(235, 730, "PT DIGITAL IT PROGRAM")
+    c.drawString(235, 730, "PT RADAR IT")
     c.drawString(264, 710, "TAHUN 2024")
     
     # Menambahkan elemen grafis lainnya
