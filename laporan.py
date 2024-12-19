@@ -84,7 +84,18 @@ def show_data(db, pdf_file):
         print("LAPORAN DATA BARANG".center(60))
         print()
         headers = ["Kode", "Nama Barang", "Quantity", "Harga Satuan", "Total"]
-        table_data = [headers] + result
+        formatted_result = [
+            [
+                row[0], 
+                row[1], 
+                row[2], 
+                f"Rp.{int(row[3]):,}".replace(",", "."),  # Format Harga Satuan
+                f"Rp.{int(row[4]):,}".replace(",", ".")   # Format Total
+            ] 
+            for row in result
+        ]
+
+        table_data = [headers] + formatted_result
         print(tabulate(result, headers=headers, tablefmt="pretty"))
 
         # Menjumlahkan total dari semua barang
