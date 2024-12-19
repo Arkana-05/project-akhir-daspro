@@ -41,7 +41,7 @@ def show_data(db):
         print(tabulate(result, headers=headers, tablefmt="pretty"))
 
         # Menjumlahkan total dari semua barang
-        total_keseluruhan = sum(int(row[4]) for row in result)  # row[4] adalah kolom 'total' berdasarkan tabel yang ada di database
+        total_keseluruhan = sum(int(column[4]) for column in result)  # row[4] adalah kolom 'total' berdasarkan tabel yang ada di database
         
         # Menampilkan total keseluruhan di bawah tabel
         print(f"Total Keseluruhan: Rp.{total_keseluruhan:,.0f}")
