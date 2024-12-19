@@ -20,51 +20,65 @@ print("         : Arka N / 19241186")
 print("         : Muhammad Arya D.A / 1924")
 print()
 
-show = input("Tampilkan Data Team [Y/T] : ").lower()
-if show == 'y':
-    print("Nama\t: Dias H.")
-    print("NIM\t: 1924")
-    print("Prodi\t: Sistem Informasi")
-    print("Kelas\t: 19.1B.13")
-    print("Posisi\t: Ketua")
-    print()
-    print("Nama\t: Ramdhan")
-    print("NIM\t: 1924")
-    print("Prodi\t: Sistem Informasi")
-    print("Kelas\t: 19.1B.13")
-    print("Posisi\t: Anggota")
-    print()
-    print("Nama\t: Anggraini S.")
-    print("NIM\t: 1924")
-    print("Prodi\t: Sistem Informasi")
-    print("Kelas\t: 19.1B.13")
-    print("Posisi\t: Anggota")
-    print()
-    print("Nama\t: Arka N.")
-    print("NIM\t: 19241186")
-    print("Prodi\t: Sistem Informasi")
-    print("Kelas\t: 19.1B.13")
-    print("Posisi\t: Anggota")
-    print()
-    print("Nama\t: Muhammad Arya D.A")
-    print("NIM\t: 1924")
-    print("Prodi\t: Sistem Informasi")
-    print("Kelas\t: 19.1B.13")
-    print("Posisi\t: Anggota")
-    print()
-    
-    back = input("Kembali ke Menu [Y/T] : ").lower()
-    if back == 'y':
-        import menu
-        menu.show_menu()
-    else:
-        print("Keluar dari program. Terimakasih😉")
-        exit()
-else:
-    back = input("Kembali ke Menu [Y/T] : ").lower()
-    if back == 'y':
-        import menu
-        menu.show_menu()
-    else:
-        print("Keluar dari program. Terimakasih😉")
-        exit()
+def show_data():
+    while True:
+        show = input("Tampilkan Data Team [Y/T] : ").lower()
+        if show == 'y':
+            print("Nama\t: Dias H.")
+            print("NIM\t: 1924")
+            print("Prodi\t: Sistem Informasi")
+            print("Kelas\t: 19.1B.13")
+            print("Posisi\t: Ketua")
+            print()
+            print("Nama\t: Ramdhan")
+            print("NIM\t: 1924")
+            print("Prodi\t: Sistem Informasi")
+            print("Kelas\t: 19.1B.13")
+            print("Posisi\t: Anggota")
+            print()
+            print("Nama\t: Anggraini S.")
+            print("NIM\t: 1924")
+            print("Prodi\t: Sistem Informasi")
+            print("Kelas\t: 19.1B.13")
+            print("Posisi\t: Anggota")
+            print()
+            print("Nama\t: Arka N.")
+            print("NIM\t: 19241186")
+            print("Prodi\t: Sistem Informasi")
+            print("Kelas\t: 19.1B.13")
+            print("Posisi\t: Anggota")
+            print()
+            print("Nama\t: Muhammad Arya D.A")
+            print("NIM\t: 1924")
+            print("Prodi\t: Sistem Informasi")
+            print("Kelas\t: 19.1B.13")
+            print("Posisi\t: Anggota")
+            print()
+            
+            back = input("Kembali ke Menu [Y/T] : ").lower()
+            if back == 'y':
+                import menu
+                menu.show_menu()
+            elif back == "t":
+                print("Terimakasih")
+                show_data()
+            else:
+                print("Pilihan Tidak Ada/Tidak ditemukan")
+                show_data()
+                
+        elif show == "t":
+            print("Terimakasih")
+            back = input("Kembali ke Menu [Y/T] : ").lower()
+            if back == 'y':
+                import menu
+                menu.show_menu()
+            elif back == "t":
+                print("Mau kemana sebetulnya toh😥")
+                show_data()
+            else:
+                print("Pilihan Tidak Ada/Tidak ditemukan")
+                show_data()
+        else:
+            print("Pilihan Tidak Ada/Tidak ditemukan")
+            show_data()
+show_data()
