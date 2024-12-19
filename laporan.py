@@ -96,7 +96,7 @@ def show_data(db, pdf_file):
         ]
 
         table_data = [headers] + formatted_result
-        print(tabulate(result, headers=headers, tablefmt="pretty"))
+        print(tabulate(formatted_result, headers=headers, tablefmt="pretty"))
 
         # Menjumlahkan total dari semua barang
         total_keseluruhan = sum(int(column[4]) for column in result)  # column[4] adalah kolom 'total' berdasarkan tabel yang ada di database
