@@ -88,7 +88,7 @@ def show_data(db, pdf_file):
         print(tabulate(result, headers=headers, tablefmt="pretty"))
 
         # Menjumlahkan total dari semua barang
-        total_keseluruhan = sum(int(row[4]) for row in result)  # row[4] adalah kolom 'total' berdasarkan tabel yang ada di database
+        total_keseluruhan = sum(int(column[4]) for column in result)  # column[4] adalah kolom 'total' berdasarkan tabel yang ada di database
         
         # Menampilkan total keseluruhan di bawah tabel
         print(f"Total Keseluruhan: Rp.{total_keseluruhan:,.0f}")
@@ -97,14 +97,39 @@ def show_data(db, pdf_file):
             cetak_data = input("Ingin Mencetak Data? [Y/N] : ").upper()
             if cetak_data == 'Y':
                 create_pdf(table_data, total_keseluruhan, pdf_file)
+
                 print("Data Tercetak, terimakasih")
+                
+                perintah = input("Tampilkan Menu Utama [Y/N] : ").upper()
+                if perintah == 'Y':
+                    import menu
+                    menu.show_menu()
+                elif perintah == 'N':
+                    print("Mau kemana sebetulnya toh😥")
+                    continue
+                else:
+                    print("Warning!!! Masukkan dalam format [Y/N]")
+                    continue
+
             elif cetak_data == 'N':
                 print("Terimakasih")
+                perintah = input("Tampilkan Menu Utama [Y/N] : ").upper()
+                if perintah == 'Y':
+                    import menu
+                    menu.show_menu()
+                elif perintah == 'N':
+                    print("Mau kemana sebetulnya toh😥")
+                    continue
+                else:
+                    print("Warning!!! Masukkan dalam format [Y/N]")
+                    continue
             else:
                 print("Warning!!! Masukkan dalam format [Y/N]")
                 continue
             break
 
+# Nama file PDF yang akan dibuat
+pdf_file = "laporan_data_barang.pdf"
+
 # Jalankan fungsi untuk menampilkan data
-
-
+show_data(db, pdf_file)
