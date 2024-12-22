@@ -258,7 +258,7 @@ def hapus_stock(db):
 # MENAMPILKAN MENU
 def show_menu(db):
     while True:  # Perulangan menu utama
-        perintah = input("Tampilkan Menu [Y/T] : ").lower()
+        perintah = input("Tampilkan Aksi [Y/T] : ").lower()
         if perintah == 'y':
             print("Aksi".center(60))
             print(baris)
@@ -272,7 +272,7 @@ def show_menu(db):
             print("0. Menu Utama")
             print(baris)
 
-            menu = input("Pilih Menu : ")
+            menu = input("Pilih Aksi : ")
 
             if menu == "1":
                 insert_data(db) #JIKA PILIH 1 MAKA AKAN MUNCUL TAMPILAN UNTUK INSERT DATA DAN SETERUSNYA
