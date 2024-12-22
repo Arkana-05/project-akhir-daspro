@@ -26,7 +26,6 @@ print()
 
 # TAMBAH DATA KE DATABASE
 def insert_data(db):
-    # Program utama
     while True:
         # Input jumlah data
         while True:
@@ -36,20 +35,31 @@ def insert_data(db):
             except ValueError:
                 print("Jumlah Data harus berupa angka! Silakan coba lagi.")
 
-        # Perulangan untuk memasukkan data berdasarkan jumlah yang dimasukkan
         for i in range(jumlah_data):
-            print("Data ke "  + str(i + 1))
+            print("Data ke " + str(i + 1))
             kode_barang = input("Kode Barang : ").upper()
-            nama_barang = input("Nama Barang : ")
-            # perulangan yang akan terus berjalan sebelum menemukan fungsi break
+            
+            while True:  # Loop untuk memastikan nama barang tidak duplikat
+                nama_barang = input("Nama Barang : ")
+
+                # Periksa apakah data dengan nama_barang yang sama sudah ada
+                cursor = db.cursor()
+                cursor.execute("SELECT COUNT(*) FROM data_barang WHERE nama = %s", (nama_barang,))
+                # Kode SELECT COUNT(*) FROM data_barang WHERE nama = %s berfungsi untuk menghitung jumlah baris (record) dalam tabel data_barang yang memiliki nama barang tertentu. Misalnya, jika kita mencari nama barang "Lenovo", query ini akan menghitung berapa banyak data barang yang memiliki nama "Lenovo" dalam tabel data_barang. %s adalah tempat untuk nilai yang akan diberikan, misalnya "Lenovo", dalam query tersebut.
+                hasil = cursor.fetchone()
+
+                if hasil[0] > 0:
+                    print(f"Data dengan Nama Barang '{nama_barang}' sudah ada! Silakan masukkan nama yang berbeda.")
+                else:
+                    break  # Nama barang unik, keluar dari loop
+
+            # Perulangan untuk memastikan input qty_barang adalah angka
             while True:
                 try:
                     qty_barang = int(input("Quantity Barang : "))
                     break
-                    # jika inputan yang di tambahkan berupa angka, maka fungsi break akan dijalankan dan perulangan akan otomatis berhenti
                 except ValueError:
                     print("Quantity harus berupa angka! Silakan coba lagi.")
-                    # jika inputan yang di masukkan bukan angka, maka akan muncul pesan di atas dan perulangan sebelumnya kembali dijalankan sampai fungsi break dijalankan. 
 
             while True:
                 try:
@@ -61,26 +71,22 @@ def insert_data(db):
             total = harga_barang * qty_barang
 
             # Menyimpan data ke dalam database
-            # variable untuk menampung inputan sebelumnya
-            value = (kode_barang ,nama_barang, qty_barang, harga_barang, total)
-            # code untuk tambah data kedalam database
+            value = (kode_barang, nama_barang, qty_barang, harga_barang, total)
             sql = "INSERT INTO data_barang (kode, nama, qty, harga, total) VALUES (%s, %s, %s, %s, %s)"
-            # menyimpan data ke database sesuai dengan sql dan value yang telah di buat
-            db.cursor().execute(sql, value)
-            db.commit() #fungsi untuk menyimpan perubahan ke kedatabase
+            cursor.execute(sql, value)
+            db.commit()
+            print(f"Data Barang '{nama_barang}' berhasil ditambahkan.")
 
-        # code untuk menanyakan apakah akan menambah data baru atau tidak
+        # Menanyakan apakah ingin menambah data baru
         while True:
-            perintah = input("Tambah Data Baru [Y/T]? ").lower() #code untuk mengganti huruf menjadi kecil
+            perintah = input("Tambah Data Baru [Y/T]? ").lower()
             if perintah == 't':
                 print("Proses selesai. Semua data telah disimpan.")
                 return
             elif perintah == 'y':
-                break  # Melanjutkan untuk menambah data baru
+                break
             else:
                 print("Input tidak valid. Masukkan 'Y' untuk menambah data atau 'T' untuk selesai.")
-
-
 
 # MENAMPILKAN DATA DARI TABEL DI DATABASE KEDALAM BENTUK TABEL
 def show_data(db):
@@ -132,7 +138,7 @@ def update_data(db):
     db.commit()
     show_data(db)
 
-
+# HAPUS DATA
 def delete_data(db):
     cursor = db.cursor()
     # menampilkan semua data dari code show_data di atas
@@ -149,7 +155,7 @@ def delete_data(db):
     print("Data Berhasil dihapus")
     show_data(db)
 
-
+# AKSI UNTUK PENCARIAN DATA
 def search_data(db):
     cursor = db.cursor()
     keyword = input("Masukkan Kata Kunci :")
@@ -167,6 +173,87 @@ def search_data(db):
         # Tampilkan data dalam bentuk tabel menggunakan modul tabulate
         print(tabulate(result, headers=headers, tablefmt="pretty"))
 
+# AKSI UNTUK EDIT STOK / TAMBAH STOK BARANG (PEMASUKAN STOK BARANG)
+def edit_stock(db):
+    cursor = db.cursor()
+    # Menambahkan qty baru ke qty yang sudah ada berdasarkan ID barang
+    try:
+        # Tampilkan daftar barang
+        show_data(db)
+
+        # Input ID barang yang akan diedit
+        id_barang = int(input("Masukkan ID barang : "))
+        
+        # Periksa apakah data barang yang dicari ada di database
+        cursor.execute("SELECT nama, qty FROM data_barang WHERE id = %s", (id_barang,))
+        # %s adalah placeholder dalam query SQL yang digunakan untuk memasukkan nilai secara dinamis saat query dijalankan.
+        barang = cursor.fetchone()
+        # fetchone() hanya mengambil satu baris dari hasil query
+
+        if barang:
+            # Indeks yang digunakan (barang[0], barang[1], dll.) merujuk pada posisi elemen dalam hasil query MySQL (SELECT nama, qty FROM data_barang WHERE id = %s), bukan pada urutan kolom di tabel database.
+            print(f"Data Barang ditemukan: {barang[0]}, Stok saat ini: {barang[1]}")
+            # f Variabel atau ekspresi Python yang ingin disisipkan dalam string ditempatkan di dalam kurung kurawal {}.
+            stok_tambahan = int(input("Tambah stok : "))
+
+            # Update stok barang dengan menambahkan stok tambahan
+            # Menggunakan qty = qty + %s untuk menambahkan stok_tambahan ke qty yang sudah ada di database.
+            cursor.execute("UPDATE data_barang SET qty = qty + %s WHERE id = %s", (stok_tambahan, id_barang))
+            # code qty = qty + %s berfungsi untuk menambahkan nilai tertentu ke kolom qty tanpa mengganti nilai sebelumnya.
+            db.commit()
+            print(f"Stok barang berhasil ditambahkan! Stok baru: {barang[1] + stok_tambahan}")
+        else:
+            print("Barang dengan ID tersebut tidak ditemukan.")
+    except ValueError:
+        print("Input tidak valid. Pastikan ID dan stok berupa angka.")
+
+        while True:
+            perintah = input("Lanjutkan Edit Stock [Y/T] : ").lower()
+            if perintah == 'y':
+                edit_stock(db)
+            elif perintah == "t":
+                print("Terimakasih!")
+                show_menu(db)
+            else:
+                print("Pilihan Tidak Ada/Tidak ditemukan")
+
+# AKSI UNTUK HAPUS STOK BARANG (PENGELUARAN STOK BARANG)
+def hapus_stock(db):
+    cursor = db.cursor()
+    # Menambahkan stok baru ke stok yang sudah ada berdasarkan ID barang
+    try:
+        # Tampilkan daftar barang
+        show_data(db)
+
+        # Input ID barang yang akan diedit
+        id_barang = int(input("Masukkan ID barang : "))
+        
+        # Periksa apakah barang ada
+        cursor.execute("SELECT nama, qty FROM data_barang WHERE id = %s", (id_barang,))
+        barang = cursor.fetchone()
+
+        if barang:
+            print(f"Data Barang ditemukan: {barang[0]}, Stok saat ini: {barang[1]}")
+            stok_tambahan = int(input("Pengeluaran stok : "))
+
+            # Update stok barang dengan menambahkan stok tambahan
+            cursor.execute("UPDATE data_barang SET qty = qty - %s WHERE id = %s", (stok_tambahan, id_barang))
+            db.commit()
+            print(f"Stok barang berhasil dikurangi! Stok terbaru: {barang[1] - stok_tambahan}")
+        else:
+            print("Barang dengan ID tersebut tidak ditemukan.")
+    except ValueError:
+        print("Input tidak valid. Pastikan ID dan stok berupa angka.")
+
+        while True:
+            perintah = input("Lanjutkan Hapus Stock [Y/T] : ").lower()
+            if perintah == 'y':
+                edit_stock(db)
+            elif perintah == "t":
+                print("Terimakasih!")
+                show_menu(db)
+            else:
+                print("Pilihan Tidak Ada/Tidak ditemukan")
 
 # MENAMPILKAN MENU
 def show_menu(db):
@@ -176,10 +263,12 @@ def show_menu(db):
             print("Aksi".center(60))
             print(baris)
             print("1. Tambah Data")
-            print("2. Tampilkan Data")
-            print("3. Edit Data")
-            print("4. Hapus Data")
-            print("5. Cari Data")
+            print("2. Edit Stok")
+            print("3. Hapus Stok")
+            print("4. Tampilkan Data")
+            print("5. Edit Data")
+            print("6. Hapus Data")
+            print("7. Cari Data")
             print("0. Menu Utama")
             print(baris)
 
@@ -188,12 +277,16 @@ def show_menu(db):
             if menu == "1":
                 insert_data(db) #JIKA PILIH 1 MAKA AKAN MUNCUL TAMPILAN UNTUK INSERT DATA DAN SETERUSNYA
             elif menu == "2":
-                show_data(db)
+                edit_stock(db)
             elif menu == "3":
-                update_data(db)
+                hapus_stock(db)
             elif menu == "4":
-                delete_data(db)
+                show_data(db)
             elif menu == "5":
+                update_data(db)
+            elif menu == "6":
+                delete_data(db)
+            elif menu == "7":
                 search_data(db)
             elif menu == "0":
                 import menu # JIKA PILIH 0, MAKA AKAN BERALIH PADA FILE MENU.PY
