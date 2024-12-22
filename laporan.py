@@ -28,11 +28,7 @@ baris = "-" * 60
 print() 
 print("Program pengadaan barang".upper().center(60)) 
 #menampilkan kata program ... dengan huruf kapital semua(upper) dan di setting ada di tengah dengan code center(60), angka 60 di samakan dengan banyaknya garis/baris di atas. 
-<<<<<<< HEAD
-print("PT RADAR IT PROGRAM".center(60))
-=======
 print("PT RADAR IT".center(60))
->>>>>>> ba10bedb7c79166d3c0fe1e2e6404ced67ad36f9
 print("Tahun 2024".center(60))
 print(garis) #menampilkan isi dari variable garis
 print()
@@ -43,11 +39,7 @@ def create_pdf(data, total_keseluruhan, pdf_file):
     width, height = letter
     # Menambahkan teks ke halaman
     c.drawString(210, 750, "PROGRAM PENGADAAN BARANG")
-<<<<<<< HEAD
-    c.drawString(235, 730, "PT RADAR IT PROGRAM")
-=======
     c.drawString(235, 730, "PT RADAR IT")
->>>>>>> ba10bedb7c79166d3c0fe1e2e6404ced67ad36f9
     c.drawString(264, 710, "TAHUN 2024")
     
     # Menambahkan elemen grafis lainnya
