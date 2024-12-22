@@ -86,7 +86,7 @@ def insert_data(db):
             elif perintah == 'y':
                 break
             else:
-                print("Input tidak valid. Masukkan 'Y' untuk menambah data atau 'T' untuk selesai.")
+                print("Warning!!! Masukkan dalam format [Y/T]")
 
 # MENAMPILKAN DATA DARI TABEL DI DATABASE KEDALAM BENTUK TABEL
 def show_data(db):
@@ -215,7 +215,7 @@ def edit_stock(db):
                 print("Terimakasih!")
                 show_menu(db)
             else:
-                print("Pilihan Tidak Ada/Tidak ditemukan")
+                print("Warning!!! Masukkan dalam format [Y/T]")
 
 # AKSI UNTUK HAPUS STOK BARANG (PENGELUARAN STOK BARANG)
 def hapus_stock(db):
@@ -253,7 +253,7 @@ def hapus_stock(db):
                 print("Terimakasih!")
                 show_menu(db)
             else:
-                print("Pilihan Tidak Ada/Tidak ditemukan")
+                print("Warning!!! Masukkan dalam format [Y/T]")
 
 # MENAMPILKAN MENU
 def show_menu(db):
@@ -292,7 +292,7 @@ def show_menu(db):
                 import menu # JIKA PILIH 0, MAKA AKAN BERALIH PADA FILE MENU.PY
                 menu.show_menu()
             else:
-                print("Pilihan Tidak Ada/Tidak ditemukan")
+                print("Warning!!! Masukkan dalam format [Y/T]")
         else:
             print("Terimakasih!")
             perintah = input("Tampilkan Menu Utama [Y/T] : ").lower()
