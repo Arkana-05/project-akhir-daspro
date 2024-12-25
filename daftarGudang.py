@@ -67,15 +67,25 @@ def detail_data(db):
 
             # Header tabel
             headers = ["Kode", "Nama Barang", "Quantity", "Harga Satuan", "Total"]
+            formatted_result = [
+                [
+                    row[0], 
+                    row[1], 
+                    row[2], 
+                    f"Rp {int(row[3]):,}".replace(",", "."),  # Format Harga Satuan
+                    f"Rp {int(row[4]):,}".replace(",", ".")   # Format Total
+                ] 
+                for row in result
+            ]
             
             # Menampilkan hasil query dalam bentuk tabel menggunakan tabulate
-            print(tabulate(result, headers=headers, tablefmt="pretty"))
+            print(tabulate(formatted_result, headers=headers, tablefmt="pretty"))
 
             # Menjumlahkan total dari semua barang
             total_keseluruhan = sum(int(row[4]) for row in result)  # row[4] adalah kolom 'total' berdasarkan tabel yang ada di database
             
             # Menampilkan total keseluruhan di bawah tabel
-            print(f"Total Keseluruhan: Rp.{total_keseluruhan:,.0f}")
+            print(f"Total Keseluruhan: Rp.{total_keseluruhan:,.0f}".replace(",", "."))
             # perulangan yang akan terus berulang setiap kali detail barang di tampilkan
             while True:
                 perintah = input("Kembali ke Menu [Y/T]: ").lower()

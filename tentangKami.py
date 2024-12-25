@@ -24,7 +24,7 @@ def show_data():
     while True:
         show = input("Tampilkan Data Team [Y/T] : ").lower()
         if show == 'y':
-            print("Nama\t: Dias Havits")
+            print("\nNama\t: Dias Havits")
             print("NIM\t: 19241041")
             print("Prodi\t: Sistem Informasi")
             print("Kelas\t: 19.1B.13")
@@ -60,7 +60,7 @@ def show_data():
                 import menu
                 menu.show_menu()
             elif back == "t":
-                print("Terimakasih")
+                print("Terimakasih\n")
                 show_data()
             else:
                 print("Pilihan Tidak Ada/Tidak ditemukan")

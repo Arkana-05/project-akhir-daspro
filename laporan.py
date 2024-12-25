@@ -8,7 +8,9 @@ from reportlab.pdfgen import canvas
 from reportlab.lib import colors 
 #mengimport fungsi untuk memanipulasi style table
 from reportlab.platypus import Table , TableStyle
-
+#mengimport fungsi untuk memanipulasi font pdf
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 import mysql.connector
 
 # Code untuk dapat terkoneksi ke database MySQL
@@ -35,12 +37,14 @@ print()
 
 #Fungsi Membuat PDF
 def create_pdf(data, total_keseluruhan, pdf_file):
+    pdfmetrics.registerFont(TTFont('timesNewRomanBold', 'Times New Roman Bold.ttf'))
     c = canvas.Canvas(pdf_file, pagesize=letter)
     width, height = letter
     # Menambahkan teks ke halaman
+    c.setFont("timesNewRomanBold", 12)  # Font dan ukuran teks
     c.drawString(210, 750, "PROGRAM PENGADAAN BARANG")
-    c.drawString(235, 730, "PT RADAR IT")
-    c.drawString(264, 710, "TAHUN 2024")
+    c.drawString(265, 730, "PT RADAR IT")
+    c.drawString(268, 710, "TAHUN 2024")
     
     # Menambahkan elemen grafis lainnya
     c.line(100, 700, 500, 700)  # Garis horizontal
@@ -91,8 +95,8 @@ def show_data(db, pdf_file):
                 row[0], 
                 row[1], 
                 row[2], 
-                f"Rp.{int(row[3]):,}".replace(",", "."),  # Format Harga Satuan
-                f"Rp.{int(row[4]):,}".replace(",", ".")   # Format Total
+                f"Rp {int(row[3]):,}".replace(",", "."),  # Format Harga Satuan
+                f"Rp {int(row[4]):,}".replace(",", ".")   # Format Total
             ] 
             for row in result
             # memproses setiap elemen dalam result satu per satu,
@@ -108,7 +112,7 @@ def show_data(db, pdf_file):
         total_keseluruhan = sum(int(column[4]) for column in result)  # column[4] adalah kolom 'total' berdasarkan tabel yang ada di database
         
         # Menampilkan total keseluruhan di bawah tabel
-        print(f"Total Keseluruhan: Rp.{total_keseluruhan:,.0f}")
+        print(f"Total Keseluruhan: Rp.{total_keseluruhan:,.0f}".replace(",", "."))
 
         while(True):
             cetak_data = input("Ingin Mencetak Data? [Y/N] : ").upper()

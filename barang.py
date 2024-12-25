@@ -101,8 +101,21 @@ def show_data(db):
         print("Data Barang".center(60))
         # Header tabel
         headers = ["ID","Kode", "Nama Barang", "Quantity", "Harga Satuan", "Total"]
+                # Format data untuk kolom Harga Satuan dan Total ke format Rupiah dengan pemisah titik
+        formatted_result = [
+            [
+                row[0], 
+                row[1], 
+                row[2], 
+                row[3],
+                f"Rp {int(row[4]):,}".replace(",", ".")   # Format Total
+            ] 
+            for row in result
+            # memproses setiap elemen dalam result satu per satu,
+        ]
+
         # Tampilkan data dalam bentuk tabel menggunakan modul tabulate
-        print(tabulate(result, headers=headers, tablefmt="pretty"))
+        print(tabulate(formatted_result, headers=headers, tablefmt="pretty"))
 
 # EDIT DATA 
 def update_data(db):
@@ -248,7 +261,7 @@ def hapus_stock(db):
         while True:
             perintah = input("Lanjutkan Hapus Stock [Y/T] : ").lower()
             if perintah == 'y':
-                edit_stock(db)
+                hapus_stock(db)
             elif perintah == "t":
                 print("Terimakasih!")
                 show_menu(db)
