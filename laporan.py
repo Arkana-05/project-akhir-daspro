@@ -70,7 +70,7 @@ def create_pdf(data, total_keseluruhan, pdf_file):
     table.drawOn(c, x_position, y_position)
 
     # Tambahkan total keseluruhan di bawah tabel
-    c.drawString(x_position, y_position - 20, f"Total Keseluruhan: Rp.{total_keseluruhan:,.0f}")
+    c.drawString(x_position, y_position - 20, f"Total Keseluruhan: Rp {total_keseluruhan:,.0f}".replace(",","."))
 
     # Simpan PDF
     c.save()
