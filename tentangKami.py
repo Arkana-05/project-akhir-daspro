@@ -63,7 +63,7 @@ def show_data():
                 print("Terimakasih\n")
                 show_data()
             else:
-                print("Pilihan Tidak Ada/Tidak ditemukan")
+                print("Warning!!! Masukkan dalam format [Y/T]")
                 show_data()
                 
         elif show == "t":
@@ -76,9 +76,9 @@ def show_data():
                 print("Mau kemana sebetulnya toh😥")
                 show_data()
             else:
-                print("Pilihan Tidak Ada/Tidak ditemukan")
+                print("Warning!!! Masukkan dalam format [Y/T]")
                 show_data()
         else:
-            print("Pilihan Tidak Ada/Tidak ditemukan")
+            print("Warning!!! Masukkan dalam format [Y/T]")
             show_data()
 show_data()

@@ -1,5 +1,6 @@
 # import modul
 import mysql.connector
+
 # Code untuk dapat terkoneksi ke database MySQL
 db = mysql.connector.connect(
     host = "localhost",      # host database, biasanya pakai localhost
@@ -13,8 +14,6 @@ db = mysql.connector.connect(
 garis = ("=")*60
 baris = ("-")*60
 
-"variabel untuk membaca pdf file"
-pdf_file = "laporan_data_barang.pdf"
 # code untuk menampilkan header
 
 def show_menu():
@@ -38,7 +37,7 @@ def show_menu():
         daftarGudang.show_data(db)  # Hilangkan print()
     elif perintah == "3":
         import laporan
-        laporan.show_data(db,pdf_file) # Jika ada fungsi show_menu di laporan
+        laporan.show_data(db)  # Jika ada fungsi show_menu di laporan
     elif perintah == "4":
         import tentangKami
         print(tentangKami)
@@ -46,7 +45,7 @@ def show_menu():
         print("Keluar dari program. Terimakasih😉")
         exit()
     else:
-        print("Pilihan Tidak Ada/Tidak ditemukan")
+        print("Warning!!! Masukkan dalam format [1/2/3/4/0]")
 
 
 # __name__ igunakan untuk mengeksekusi semua code
