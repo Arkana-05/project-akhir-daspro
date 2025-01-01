@@ -149,7 +149,15 @@ def update_data(db):
     cursor.execute(sql, value)
 
     db.commit()
-    show_data(db)
+    while True:
+        perintah = input("Lanjutkan Hapus Stock [Y/T] : ").lower()
+        if perintah == 'y':
+            update_data(db)
+        elif perintah == "t":
+            print("Terimakasih!")
+            show_menu(db)
+        else:
+            print("Warning!!! Masukkan dalam format [Y/T]")
 
 # HAPUS DATA
 def delete_data(db):
@@ -186,8 +194,9 @@ def search_data(db):
         # Tampilkan data dalam bentuk tabel menggunakan modul tabulate
         print(tabulate(result, headers=headers, tablefmt="pretty"))
 
+
 # AKSI UNTUK EDIT STOK / TAMBAH STOK BARANG (PEMASUKAN STOK BARANG)
-def edit_stock(db):
+def tambah_stok(db):
     cursor = db.cursor()
     # Menambahkan qty baru ke qty yang sudah ada berdasarkan ID barang
     try:
@@ -220,15 +229,15 @@ def edit_stock(db):
     except ValueError:
         print("Input tidak valid. Pastikan ID dan stok berupa angka.")
 
-        while True:
-            perintah = input("Lanjutkan Edit Stock [Y/T] : ").lower()
-            if perintah == 'y':
-                edit_stock(db)
-            elif perintah == "t":
-                print("Terimakasih!")
-                show_menu(db)
-            else:
-                print("Warning!!! Masukkan dalam format [Y/T]")
+    while True:
+        perintah = input("Lanjutkan Tambah Stock [Y/T] : ").lower()
+        if perintah == 'y':
+            tambah_stok(db)
+        elif perintah == "t":
+            print("Terimakasih!")
+            show_menu(db)
+        else:
+            print("Warning!!! Masukkan dalam format [Y/T]")
 
 # AKSI UNTUK HAPUS STOK BARANG (PENGELUARAN STOK BARANG)
 def hapus_stock(db):
@@ -258,15 +267,45 @@ def hapus_stock(db):
     except ValueError:
         print("Input tidak valid. Pastikan ID dan stok berupa angka.")
 
-        while True:
-            perintah = input("Lanjutkan Hapus Stock [Y/T] : ").lower()
-            if perintah == 'y':
+    while True:
+        perintah = input("Lanjutkan Hapus Stock [Y/T] : ").lower()
+        if perintah == 'y':
                 hapus_stock(db)
-            elif perintah == "t":
+        elif perintah == "t":
                 print("Terimakasih!")
                 show_menu(db)
+        else:
+            print("Warning!!! Masukkan dalam format [Y/T]")
+
+
+# Fungsi untuk menggabungkan fungsi tambah dan kurang
+def edit_stok(db):
+    while(True):
+        try:
+            #tampilkan menu
+            print(baris)
+            print("1. Barang Masuk")
+            print("2. Barang Keluar")
+            print("3. Edit Data")
+            print("0. Menu Utama")
+            print(baris)
+            #input ingin menambahkan atau mengurangi
+            perintah = int(input("Masukkan data : ")) 
+            if perintah == 1:
+                tambah_stok(db)
+            elif perintah == 2:
+                hapus_stock(db)
+            elif perintah == 3:
+                update_data(db)
+            elif perintah == 0:
+                show_menu
             else:
-                print("Warning!!! Masukkan dalam format [Y/T]")
+                print("Input tidak ditemukan, masukkan sesuai menu")
+                continue
+            break
+        except ValueError:
+            print("Warning!!! Format input tidak sesuai")
+            continue
 
 # MENAMPILKAN MENU
 def show_menu(db):
@@ -276,12 +315,10 @@ def show_menu(db):
             print("Aksi".center(60))
             print(baris)
             print("1. Tambah Data")
-            print("2. Edit Stok")
-            print("3. Hapus Stok")
-            print("4. Tampilkan Data")
-            print("5. Edit Data")
-            print("6. Hapus Data")
-            print("7. Cari Data")
+            print("2. Update Data")
+            print("3. Tampilkan Data")
+            print("4. Hapus Data")
+            print("5. Cari Data")
             print("0. Menu Utama")
             print(baris)
 
@@ -290,16 +327,12 @@ def show_menu(db):
             if menu == "1":
                 insert_data(db) #JIKA PILIH 1 MAKA AKAN MUNCUL TAMPILAN UNTUK INSERT DATA DAN SETERUSNYA
             elif menu == "2":
-                edit_stock(db)
+                edit_stok(db)
             elif menu == "3":
-                hapus_stock(db)
-            elif menu == "4":
                 show_data(db)
-            elif menu == "5":
-                update_data(db)
-            elif menu == "6":
+            elif menu == "4":
                 delete_data(db)
-            elif menu == "7":
+            elif menu == "5":
                 search_data(db)
             elif menu == "0":
                 import menu # JIKA PILIH 0, MAKA AKAN BERALIH PADA FILE MENU.PY
