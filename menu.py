@@ -1,6 +1,6 @@
 # import modul
 import mysql.connector
-
+from reportlab.pdfgen import canvas 
 # Code untuk dapat terkoneksi ke database MySQL
 db = mysql.connector.connect(
     host = "localhost",      # host database, biasanya pakai localhost
@@ -13,7 +13,8 @@ db = mysql.connector.connect(
 # variabel untuk menampilkan = & - sebanyak 60
 garis = ("=")*60
 baris = ("-")*60
-
+#pdf file
+pdf_file = "laporan_data_barang.pdf"
 # code untuk menampilkan header
 
 def show_menu():
@@ -34,26 +35,30 @@ def show_menu():
     else: 
         data = True
     cursor.close()
-    perintah = input("Pilih Menu : ")
-    if perintah == "1":
-        import barang
-        barang.show_menu(db)  # Hilangkan print()
-    elif perintah == "2" and data:
-        import daftarGudang
-        daftarGudang.show_data(db)  # Hilangkan print()
-    elif perintah == "3" and data:
-        import laporan
-        laporan.show_data(db)  # Jika ada fungsi show_data di laporan
-    elif perintah == "4" :
-        import tentangKami
-        tentangKami.cetak()
-    elif perintah == "0":
-        print("Keluar dari program. Terimakasih😉")
-        exit()
-    elif not data and (perintah == "2" or perintah == "3"):
-        print("Data tidak ada, silahkan menambah data terlebih dahulu pada data barang")
-    else:
-        print("Warning!!! Masukkan dalam format [1/2/3/4/0]")
+    while(True):
+        perintah = input("Pilih Menu : ")
+        if perintah == "1":
+            import barang
+            barang.show_menu(db)  # Hilangkan print()
+        elif perintah == "2" and data:
+            import daftarGudang
+            daftarGudang.show_data(db)  # Hilangkan print()
+        elif perintah == "3" and data:
+            import laporan
+            laporan.show_data(db,pdf_file)  # Jika ada fungsi show_data di laporan
+        elif perintah == "4" :
+            import tentangKami
+            tentangKami.cetak()
+        elif perintah == "0":
+            print("Keluar dari program. Terimakasih😉")
+            exit()
+        elif not data and (perintah == "2" or perintah == "3"):
+            print("Data tidak ada, silahkan menambah data terlebih dahulu pada data barang")
+            continue
+        else:
+            print("Warning!!! Masukkan dalam format [1/2/3/4/0]")
+            continue
+        break
 
 
 # __name__ igunakan untuk mengeksekusi semua code

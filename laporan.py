@@ -115,39 +115,30 @@ def show_data(db, pdf_file):
         print(f"Total Keseluruhan: Rp.{total_keseluruhan:,.0f}".replace(",", "."))
 
         while(True):
-            cetak_data = input("Ingin Mencetak Data? [Y/N] : ").upper()
+            cetak_data = input("Ingin Mencetak Data? [Y/T] : ").upper()
             if cetak_data == 'Y':
                 create_pdf(table_data, total_keseluruhan, pdf_file)
 
                 print("Data Tercetak, terimakasih")
                 
-                perintah = input("Tampilkan Menu Utama [Y/N] : ").upper()
-                if perintah == 'Y':
-                    import menu
-                    menu.show_menu()
-                elif perintah == 'N':
-                    print("Mau kemana sebetulnya toh😥")
-                    continue
-                else:
-                    print("Warning!!! Masukkan dalam format [Y/N]")
-                    continue
-
-            elif cetak_data == 'N':
+            elif cetak_data == 'T':
                 print("Terimakasih")
-                perintah = input("Tampilkan Menu Utama [Y/N] : ").upper()
+              
+            else:
+                print("Warning!!! Masukkan dalam format [Y/T]")
+                continue
+            while(True):
+                perintah = input("Tampilkan Menu Utama [Y/T] : ").upper()
                 if perintah == 'Y':
                     import menu
                     menu.show_menu()
-                elif perintah == 'N':
-                    print("Mau kemana sebetulnya toh😥")
-                    continue
+                    break
+                elif perintah == 'T':
+                    print("Terimakasih")
+                    exit()
                 else:
-                    print("Warning!!! Masukkan dalam format [Y/N]")
-                    continue
-            else:
-                print("Warning!!! Masukkan dalam format [Y/N]")
-                continue
-            break
+                    print("Warning!!! Masukkan dalam format [Y/T]")
+            continue
 
 # Nama file PDF yang akan dibuat
 pdf_file = "laporan_data_barang.pdf"

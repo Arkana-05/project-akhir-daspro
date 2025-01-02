@@ -381,8 +381,11 @@ def show_menu(db):
                     menu.show_menu()
                 elif (not data and (menu == "2" or menu == "4" or menu == "5")):
                     print("Data tidak tersedia, silahkan tambah data terlebih dahulu")
+                    continue
                 else:
                     print("Warning!!! Masukkan dalam format [0-5]")
+                    continue
+                break
         elif perintah == "t":
             print("Terimakasih!")
             perintah = input("Tampilkan Menu Utama [Y/T] : ").lower()

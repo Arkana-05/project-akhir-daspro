@@ -90,12 +90,25 @@ def detail_data(db):
             while True:
                 perintah = input("Kembali ke Menu [Y/T]: ").lower()
                 if perintah == "y":
-                    import menu
-                    menu.show_menu() # menampilkan daftr menu di file menu.py
-                    break
+                    while(True):
+                        perintah = input("Tampilkan Menu Utama [Y/T] : ").lower()
+                        if perintah == 'y':
+                            import menu
+                            menu.show_menu()
+                            break
+                        elif perintah == 't':
+                            print("Terimakasih")
+                        else:
+                            print("Warning!!! Masukkan dalam format [Y/T]")
+                        import menu
+                        menu.show_menu() # menampilkan daftr menu di file menu.py
+                        break
+                    continue
                 elif perintah == 't':
                     show_data(db)
                     break # dan akan berhenti jika pengguna menginput 't'
                 else:
                     print("Warning!!! Masukkan dalam format [Y/T]")
+
+
 detail_data(db)
