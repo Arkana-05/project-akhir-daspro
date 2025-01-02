@@ -43,10 +43,10 @@ def show_menu():
         daftarGudang.show_data(db)  # Hilangkan print()
     elif perintah == "3" and data:
         import laporan
-        laporan.show_data(db)  # Jika ada fungsi show_menu di laporan
+        laporan.show_data(db)  # Jika ada fungsi show_data di laporan
     elif perintah == "4" :
         import tentangKami
-        print(tentangKami)
+        tentangKami.cetak()
     elif perintah == "0":
         print("Keluar dari program. Terimakasih😉")
         exit()

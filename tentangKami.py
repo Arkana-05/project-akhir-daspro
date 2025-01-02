@@ -3,22 +3,23 @@ garis = ("=")*60
 baris = ("-")*60
 
 # code untuk menampilkan header
-print() 
-print("Program pengadaan barang".upper().center(60)) 
-#menampilkan kata program ... dengan huruf kapital semua(upper) dan di setting ada di tengah dengan code center(60), angka 60 di samakan dengan banyaknya garis/baris di atas. 
-print("PT RADAR IT".center(60))
-print("Tahun 2024".center(60))
-print(garis) #menampilkan isi dari variable garis
-print()
+def cetak():
+    print() 
+    print("Program pengadaan barang".upper().center(60)) 
+    #menampilkan kata program ... dengan huruf kapital semua(upper) dan di setting ada di tengah dengan code center(60), angka 60 di samakan dengan banyaknya garis/baris di atas. 
+    print("PT RADAR IT".center(60))
+    print("Tahun 2024".center(60))
+    print(garis) #menampilkan isi dari variable garis
+    print()
 
-print("Kelompok Daspro".center(60))
-print()
-print("Ketua    : Dias Havits / 19241041")
-print("Anggota  : Muhammad Ramdhan M. / 19241129")
-print("         : Anggraini S. / 19240838")
-print("         : Arka N. / 19241186")
-print("         : Muhammad Arya D.A / 19241012")
-print()
+    print("Kelompok Daspro".center(60))
+    print()
+    print("Ketua    : Dias Havits / 19241041")
+    print("Anggota  : Muhammad Ramdhan M. / 19241129")
+    print("         : Anggraini S. / 19240838")
+    print("         : Arka N. / 19241186")
+    print("         : Muhammad Arya D.A / 19241012")
+    print()
 
 def show_data():
     while True:
@@ -81,4 +82,5 @@ def show_data():
         else:
             print("Warning!!! Masukkan dalam format [Y/T]")
             show_data()
+cetak()
 show_data()
