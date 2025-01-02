@@ -380,11 +380,11 @@ def show_menu(db):
                 import menu
                 menu.show_menu()
             elif perintah == "t":
-                print("Mau kemana sebetulnya toh😥")
-                show_menu(db)
+                print("Terimakasih")
+                exit()
             else:
-                print("Mau kemana sebetulnya toh😥")
-                show_menu(db)
+                print("Masukkan dalam format Y/T")
+                
     
 # __name__ igunakan untuk mengeksekusi semua code
 # __main__ digunakan untuk sebuah modul dan fungsi
