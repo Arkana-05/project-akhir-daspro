@@ -150,7 +150,7 @@ def update_data(db):
 
     db.commit()
     while True:
-        perintah = input("Lanjutkan Hapus Stock [Y/T] : ").lower()
+        perintah = input("Lanjutkan Update Data? [Y/T] : ").lower()
         if perintah == 'y':
             update_data(db)
         elif perintah == "t":
@@ -287,10 +287,10 @@ def edit_stok(db):
             print("1. Barang Masuk")
             print("2. Barang Keluar")
             print("3. Edit Data")
-            print("0. Menu Utama")
+            print("0. Menu Data Barang")
             print(baris)
             #input ingin menambahkan atau mengurangi
-            perintah = int(input("Masukkan data : ")) 
+            perintah = int(input("Pilih menu : ")) 
             if perintah == 1:
                 tambah_stok(db)
             elif perintah == 2:
