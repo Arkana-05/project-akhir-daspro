@@ -214,7 +214,7 @@ def delete_data(db):
 # AKSI UNTUK PENCARIAN DATA
 def search_data(db):
     cursor = db.cursor()
-    keyword = input("Masukkan Kata Kunci :")
+    keyword = input("Masukkan Kata Kunci : ")
     sql = "SELECT kode, nama, qty, harga, total FROM data_barang WHERE kode LIKE %s OR nama LIKE %s OR qty LIKE %s OR harga LIKE %s "
     value = ("%{}%".format(keyword), "%{}%".format(keyword), "%{}%".format(keyword), "%{}%".format(keyword),)
     # fungsi %% berfungsi untuk menampilkan kata kunci berdasarkan kata kunci yang sudah di inputkan
