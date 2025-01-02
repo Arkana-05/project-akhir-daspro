@@ -124,7 +124,7 @@ def update_data(db):
     show_data(db)
     _id = input("Pilih ID Barang : ")
     
-    kode_barang = input("Kode Barang : ")
+    kode_barang = input("Kode Barang : ").upper()
     nama_barang = input("Nama Barang : ")
     while True:
         try:
