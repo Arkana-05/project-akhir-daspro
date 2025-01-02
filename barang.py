@@ -120,43 +120,60 @@ def show_data(db):
 # EDIT DATA 
 def update_data(db):
     cursor = db.cursor()
-    # menampilkan semua data dari code show_data di atas
+    # Menampilkan semua data dari fungsi show_data
     show_data(db)
-    _id = input("Pilih ID Barang : ")
+
+    while True:  # Perulangan untuk memastikan ID valid
+        _id = input("Pilih ID Barang: ")
+        
+        # Query untuk memeriksa apakah ID ada
+        cursor.execute("SELECT * FROM data_barang WHERE id=%s", (_id,))
+        result = cursor.fetchone()  # Mengambil satu baris hasil query
+        
+        if result:
+            # Jika ID ditemukan, lanjutkan proses update
+            print(f"Data dengan ID {_id} ditemukan, siap untuk diupdate.")
+            break
+        else:
+            # Jika ID tidak ditemukan, minta input ulang
+            print(f"ID {_id} tidak ditemukan. Silakan masukkan ID yang valid.")
     
-    kode_barang = input("Kode Barang : ").upper()
-    nama_barang = input("Nama Barang : ")
+    # Proses update data
+    kode_barang = input("Kode Barang: ").upper()
+    nama_barang = input("Nama Barang: ")
+    
     while True:
         try:
-            qty_barang = int(input("Quantity Barang : "))
+            qty_barang = int(input("Quantity Barang: "))
             break
-            
         except ValueError:
             print("Quantity harus berupa angka! Silakan coba lagi.")
 
     while True:
         try:
-            harga_barang = int(input("Harga Satuan : "))
+            harga_barang = int(input("Harga Satuan: "))
             break
         except ValueError:
             print("Harga harus berupa angka! Silakan coba lagi.")
 
     total = harga_barang * qty_barang
-    # nama, qty hahrus sesuai dengan yang ada di tabel
+
+    # Query untuk mengupdate data
     sql = "UPDATE data_barang SET kode=%s, nama=%s, qty=%s, harga=%s, total=%s WHERE id=%s"
-    # untuk value nama variable nya harus sesuai dengan variable input di atas 
     value = (kode_barang, nama_barang, qty_barang, harga_barang, total, _id)
     cursor.execute(sql, value)
-
     db.commit()
-    print(f"Data dengan ID:{_id}, Berhasil Teredit")
+
+    print(f"Data dengan ID {_id} berhasil diupdate.")
+
+    # Menanyakan apakah ingin melanjutkan
     while True:
-        perintah = input("Lanjutkan Update Data? [Y/T] : ").lower()
+        perintah = input("Lanjutkan Update Data? [Y/T]: ").lower()
         if perintah == 'y':
             update_data(db)
-        elif perintah == "t":
-            print("Terimakasih!")
-            edit_stok(db)
+        elif perintah == 't':
+            print("Terima kasih!")
+            break
         else:
             print("Warning!!! Masukkan dalam format [Y/T]")
 
