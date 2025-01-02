@@ -162,19 +162,53 @@ def update_data(db):
 # HAPUS DATA
 def delete_data(db):
     cursor = db.cursor()
-    # menampilkan semua data dari code show_data di atas
-    show_data(db)
-    _id = input("Pilih ID Barang : ")
-    
-    # nama, qty hahrus sesuai dengan yang ada di tabel
-    sql = "DELETE FROM data_barang WHERE id=%s"
-    # untuk value nama variable nya harus sesuai dengan variable input di atas 
-    value = (_id,)
-    cursor.execute(sql, value)
 
-    db.commit()
-    print("Data Berhasil dihapus")
+   
+            # Menampilkan semua data dari code show_data di atas
     show_data(db)
+    while True:
+        try:
+            # Meminta input ID barang
+            _id = input("Pilih ID Barang (angka): ")
+
+            # Validasi jika input bukan angka
+            if not _id.isdigit():
+                raise ValueError("ID harus berupa angka!")
+
+            # Cek apakah ID ada di database
+            sql_check = "SELECT * FROM data_barang WHERE id = %s"
+            cursor.execute(sql_check, (_id,))
+            result = cursor.fetchone()
+
+            if result is None:
+                raise ValueError("ID tidak ditemukan di database!")
+
+            # Jika ID valid, hapus data
+            sql_delete = "DELETE FROM data_barang WHERE id = %s"
+            cursor.execute(sql_delete, (_id,))
+            db.commit()
+            print("Data berhasil dihapus")
+
+            # Tampilkan data yang tersisa
+            show_data(db)
+            break
+
+        except ValueError as e:
+            print(f"Error: {e}. Silakan coba lagi.")
+
+        except Exception as e:
+            print(f"Terjadi kesalahan: {e}")
+            break
+    while True:
+        perintah = input("Lanjutkan Hapus Data [Y/T] : ").lower()
+        if perintah == 'y':
+                delete_data(db)
+        elif perintah == "t":
+                print("Terimakasih!")
+                show_menu(db)
+        else:
+            print("Warning!!! Masukkan dalam format [Y/T]")
+
 
 # AKSI UNTUK PENCARIAN DATA
 def search_data(db):
