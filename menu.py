@@ -27,23 +27,31 @@ def show_menu():
     print("4. Tentang Kami")
     print("0. Keluar")
     print(baris)
-
+    cursor = db.cursor(buffered=True)
+    cursor.execute("SELECT * FROM data_barang")
+    if cursor.rowcount == 0 :
+        data = False
+    else: 
+        data = True
+    cursor.close()
     perintah = input("Pilih Menu : ")
     if perintah == "1":
         import barang
         barang.show_menu(db)  # Hilangkan print()
-    elif perintah == "2":
+    elif perintah == "2" and data:
         import daftarGudang
         daftarGudang.show_data(db)  # Hilangkan print()
-    elif perintah == "3":
+    elif perintah == "3" and data:
         import laporan
         laporan.show_data(db)  # Jika ada fungsi show_menu di laporan
-    elif perintah == "4":
+    elif perintah == "4" :
         import tentangKami
         print(tentangKami)
     elif perintah == "0":
         print("Keluar dari program. Terimakasih😉")
         exit()
+    elif not data and (perintah == "2" or perintah == "3"):
+        print("Data tidak ada, silahkan menambah data terlebih dahulu pada data barang")
     else:
         print("Warning!!! Masukkan dalam format [1/2/3/4/0]")
 

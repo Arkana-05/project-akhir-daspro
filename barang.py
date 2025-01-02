@@ -96,7 +96,7 @@ def show_data(db):
     result = cursor.fetchall() #menampilan semua data dari query sebelumnya
 
     if cursor.rowcount == 0: #jika jumlah data = 0 / tidak ada data dalam tabel, maka  
-        print("Tidak Ada Data yang Ditampilkan")
+        print("Data tidak tersedia, silahkan tambah data terlebih dahulu")
     else:
         print("Data Barang".center(60))
         # Header tabel
@@ -149,13 +149,14 @@ def update_data(db):
     cursor.execute(sql, value)
 
     db.commit()
+    print(f"Data dengan ID:{_id}, Berhasil Teredit")
     while True:
         perintah = input("Lanjutkan Update Data? [Y/T] : ").lower()
         if perintah == 'y':
             update_data(db)
         elif perintah == "t":
             print("Terimakasih!")
-            show_menu(db)
+            edit_stok(db)
         else:
             print("Warning!!! Masukkan dalam format [Y/T]")
 
@@ -269,7 +270,7 @@ def tambah_stok(db):
             tambah_stok(db)
         elif perintah == "t":
             print("Terimakasih!")
-            show_menu(db)
+            edit_stok(db)
         else:
             print("Warning!!! Masukkan dalam format [Y/T]")
 
@@ -307,7 +308,7 @@ def hapus_stock(db):
                 hapus_stock(db)
         elif perintah == "t":
                 print("Terimakasih!")
-                show_menu(db)
+                edit_stok(db)
         else:
             print("Warning!!! Masukkan dalam format [Y/T]")
 
@@ -332,7 +333,7 @@ def edit_stok(db):
             elif perintah == 3:
                 update_data(db)
             elif perintah == 0:
-                show_menu
+                show_menu(db)
             else:
                 print("Input tidak ditemukan, masukkan sesuai menu")
                 continue
@@ -343,6 +344,13 @@ def edit_stok(db):
 
 # MENAMPILKAN MENU
 def show_menu(db):
+    cursor = db.cursor(buffered = True)
+    cursor.execute("SELECT * FROM data_barang")
+    if cursor.rowcount == 0:
+        data = False
+    else:
+        data = True
+    cursor.close()
     while True:  # Perulangan menu utama
         perintah = input("Tampilkan Aksi [Y/T] : ").lower()
         if perintah == 'y':
@@ -355,25 +363,27 @@ def show_menu(db):
             print("5. Cari Data")
             print("0. Menu Utama")
             print(baris)
+            while(True):
+                menu = input("Pilih Aksi : ")
 
-            menu = input("Pilih Aksi : ")
-
-            if menu == "1":
-                insert_data(db) #JIKA PILIH 1 MAKA AKAN MUNCUL TAMPILAN UNTUK INSERT DATA DAN SETERUSNYA
-            elif menu == "2":
-                edit_stok(db)
-            elif menu == "3":
-                show_data(db)
-            elif menu == "4":
-                delete_data(db)
-            elif menu == "5":
-                search_data(db)
-            elif menu == "0":
-                import menu # JIKA PILIH 0, MAKA AKAN BERALIH PADA FILE MENU.PY
-                menu.show_menu()
-            else:
-                print("Warning!!! Masukkan dalam format [Y/T]")
-        else:
+                if menu == "1":
+                    insert_data(db) #JIKA PILIH 1 MAKA AKAN MUNCUL TAMPILAN UNTUK INSERT DATA DAN SETERUSNYA
+                elif (menu == "2" and data):
+                    edit_stok(db)
+                elif menu == "3":
+                    show_data(db)
+                elif (menu == "4"  and data):
+                    delete_data(db)
+                elif (menu == "5" and data):
+                    search_data(db)
+                elif menu == "0":
+                    import menu # JIKA PILIH 0, MAKA AKAN BERALIH PADA FILE MENU.PY
+                    menu.show_menu()
+                elif (not data and (menu == "2" or menu == "4" or menu == "5")):
+                    print("Data tidak tersedia, silahkan tambah data terlebih dahulu")
+                else:
+                    print("Warning!!! Masukkan dalam format [0-5]")
+        elif perintah == "t":
             print("Terimakasih!")
             perintah = input("Tampilkan Menu Utama [Y/T] : ").lower()
             if perintah == 'y':
@@ -384,7 +394,8 @@ def show_menu(db):
                 exit()
             else:
                 print("Masukkan dalam format Y/T")
-                
+        else:
+            print("Warning!! masukkan dalam format Y/T")
     
 # __name__ igunakan untuk mengeksekusi semua code
 # __main__ digunakan untuk sebuah modul dan fungsi
