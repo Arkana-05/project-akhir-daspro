@@ -240,6 +240,15 @@ def search_data(db):
 
     if cursor.rowcount == 0: #jika jumlah data = 0 / tidak ada data dalam tabel, maka  
         print("Tidak Ada Data yang Ditampilkan")
+
+        perintah = input("Lanjutkan Mencari Data [Y/T] : ").lower()
+        if perintah == 'y':
+            search_data(db)
+        elif perintah == 't':
+            print("Terimakasih!")
+            show_menu(db)
+        else:
+            print("Warning!!! Masukkan dalam format [Y/T]")
     else:
         # Header tabel
         headers = ["Kode", "Nama Barang", "Quantity", "Harga Satuan", "Total"]
