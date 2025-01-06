@@ -173,7 +173,7 @@ def update_data(db):
             update_data(db)
         elif perintah == 't':
             print("Terima kasih!")
-            break
+            edit_stok(db)
         else:
             print("Warning!!! Masukkan dalam format [Y/T]")
 
