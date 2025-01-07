@@ -317,12 +317,12 @@ def hapus_stock(db):
 
         if barang:
             print(f"Data Barang ditemukan: {barang[0]}, Stok saat ini: {barang[1]}")
-            stok_tambahan = int(input("Pengeluaran stok : "))
+            stok_keluar = int(input("Pengeluaran stok : "))
 
             # Update stok barang dengan menambahkan stok tambahan
-            cursor.execute("UPDATE data_barang SET qty = qty - %s WHERE id = %s", (stok_tambahan, id_barang))
+            cursor.execute("UPDATE data_barang SET qty = qty - %s WHERE id = %s", (stok_keluar, id_barang))
             db.commit()
-            print(f"Stok barang berhasil dikurangi! Stok terbaru: {barang[1] - stok_tambahan}")
+            print(f"Stok barang berhasil dikurangi! Stok terbaru: {barang[1] - stok_keluar}")
         else:
             print("Barang dengan ID tersebut tidak ditemukan.")
     except ValueError:

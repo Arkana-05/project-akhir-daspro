@@ -1,5 +1,6 @@
 # variabel untuk menampilkan = sebanyak 60
 garis = ("=")*60
+baris = ("-")*60
 
 print(garis) #menampilkan isi dari variable garis
 print("Selamat Datang".upper().center(60)) # upper() dapat mengubah teks menjadi kapital semua, dan center untuk mengubah teks menjadi di tengah

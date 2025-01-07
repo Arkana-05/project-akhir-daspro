@@ -58,6 +58,7 @@ def show_data():
             
             back = input("Kembali ke Menu [Y/T] : ").lower()
             if back == 'y':
+                
                 import menu
                 menu.show_menu()
             elif back == "t":
