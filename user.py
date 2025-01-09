@@ -1,7 +1,8 @@
 # import modul
 import mysql.connector
 from tabulate import tabulate
- 
+import session 
+
 # Code untuk dapat terkoneksi ke database MySQL
 db = mysql.connector.connect(
     host = "localhost",      # host database, biasanya pakai localhost
@@ -38,8 +39,20 @@ def insert_data(db):
             print("Data ke " + str(i + 1))
             
             while True:  
-                _id = input("ID : ").upper()
+                _id = input("ID [ADM1-∞/US1-∞]: ").upper()
 
+                # Validasi format ID
+                if not (_id.startswith("ADM") or _id.startswith("US")):
+                    print("Role tidak ditemukan. Masukkan ID yang benar (contoh: ADM1 atau US1).")
+                    continue  # Kembali ke awal loop
+
+                # Menentukan role berdasarkan prefix ID
+                if _id.startswith("ADM"):
+                    role = "Admin"
+                elif _id.startswith("US"):
+                    role = "User"
+
+                # Mengecek apakah ID sudah ada di database
                 cursor = db.cursor()
                 cursor.execute("SELECT COUNT(*) FROM user WHERE id = %s", (_id,))
                 hasil = cursor.fetchone()
@@ -47,7 +60,10 @@ def insert_data(db):
                 if hasil[0] > 0:
                     print(f"Data dengan ID '{_id}' sudah ada! Silakan masukkan ID yang berbeda.")
                 else:
-                    break  
+                    break  # ID valid dan tidak ada dalam database
+
+            print(f"ID '{_id}' berhasil digunakan dengan role '{role}'.")
+
             
             while True:  
                 username = input("Username : ").lower()
@@ -64,8 +80,8 @@ def insert_data(db):
             password = input("Password : ").lower()
 
             # Menyimpan data ke dalam database
-            value = (_id, username, password)
-            sql = "INSERT INTO user (id, username, pass) VALUES (%s, %s, %s)"
+            value = (_id, username, password, role)
+            sql = "INSERT INTO user (id, username, pass, role) VALUES (%s, %s, %s, %s)"
             cursor.execute(sql, value)
             db.commit()
             print(f"Data User dengan ID '{_id}' berhasil ditambahkan.")
@@ -142,6 +158,7 @@ def delete_data(db):
 
 # MENAMPILKAN MENU
 def show_menu(db):
+    
     cursor = db.cursor(buffered = True)
     cursor.execute("SELECT * FROM user")
     if cursor.rowcount == 0:
