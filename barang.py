@@ -317,14 +317,37 @@ def hapus_stock(db):
 
         if barang:
             print(f"Data Barang ditemukan: {barang[0]}, Stok saat ini: {barang[1]}")
+<<<<<<< HEAD
             stok_keluar = int(input("Pengeluaran stok : "))
 
             # Update stok barang dengan menambahkan stok tambahan
             cursor.execute("UPDATE data_barang SET qty = qty - %s WHERE id = %s", (stok_keluar, id_barang))
             db.commit()
             print(f"Stok barang berhasil dikurangi! Stok terbaru: {barang[1] - stok_keluar}")
+=======
+         
+            while True:
+                try:
+                    stok_tambahan = int(input("Pengeluaran stok: "))
+                  
+                    if stok_tambahan > barang[1]:
+                        print(f"Stok barang hanya {barang[1]}, silakan ulangi kembali.")
+                    elif barang[1] - stok_tambahan <= 0:
+                        print(f"Pengurangan stok tidak dapat dilakukan karena stok akan habis. Stok saat ini: {barang[1]}")
+                    elif stok_tambahan <= 0:
+                        print("Jumlah pengeluaran stok harus lebih dari 0, silakan ulangi.")
+                    
+                    else:
+                        cursor.execute("UPDATE data_barang SET qty = qty - %s WHERE id = %s", (stok_tambahan, id_barang))
+                        db.commit()
+                        print(f"Stok barang berhasil dikurangi! Stok terbaru: {barang[1] - stok_tambahan}")
+                        break  
+                except ValueError:
+                    print("Input tidak valid, silakan masukkan angka.")
+>>>>>>> 73178bdaeeb690c66195c8118c52627a9c14b143
         else:
             print("Barang dengan ID tersebut tidak ditemukan.")
+         
     except ValueError:
         print("Input tidak valid. Pastikan ID dan stok berupa angka.")
 

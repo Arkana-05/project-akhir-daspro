@@ -1,47 +1,73 @@
 import getpass
-# variabel untuk menampilkan = & - sebanyak 60
-garis = ("=")*60
-baris = ("-")*60
+import mysql.connector
+import menu
+import session  # Mengimpor modul untuk sesi
+
+# Koneksi ke database
+db = mysql.connector.connect(
+    host="localhost",  # host database
+    user="root",       # username MySQL
+    password="",       # password MySQL
+    database="python_project_uas"  # Nama database
+)
+
+# Variabel untuk menampilkan garis
+garis = "=" * 60
+baris = "-" * 60
 
 def header():
-    print() #code untuk memberi jarak sebanyak 1 kali enter
-    print("Program pengadaan barang".upper().center(60)) # upper() dapat mengubah teks menjadi kapital semua, dan center untuk mengubah teks menjadi di tengah
+    print()
+    print(garis)
+    print("Program Pengadaan Barang".upper().center(60))
     print("PT RADAR IT".center(60))
-
-    print(garis) #menampilkan isi dari variable garis
+    print(garis)
     print()
 
-# PROSES INPUT USERNAME DAN PASSWORD
+def check_credentials(username, password):
+    """Memeriksa username dan password di database."""
+    cursor = db.cursor()
+    query = "SELECT id, pass FROM user WHERE username = %s"
+    cursor.execute(query, (username,))
+    result = cursor.fetchone()
 
-while True:
-    header()
-    user = input("\t User \t\t: ").lower()
-    password = getpass.getpass("\t Password \t: ").lower()
-    
-    if user == "master" and password == "radar":
-        import menu
-        print(menu.show_menu())  # JIKA USER DAN PW SUDAH BENAR, MAKA AKAN OTOMATIS BERALIH PADA FILE MENU.PY DAN LANGSUNG MENJALANKAN FUNGSI SHOW_MENU()
-    else:
-        print('\n')
-        print("Maaf Username atau Password Salah, Silahkan Coba Lagi")
-        print('\n')
-        while(True):
-            continueLogin = input("Apakah Anda Ingin Mencoba Lagi? [Y/T]: ").lower()
-            if continueLogin == "y":
-                break
-            elif continueLogin == "t":
-                print("Terimakasih")
-                break
-            else:
-                print("WARNING !!! Input dengan Format [Y/T]")
-                continue
-        if continueLogin == "t":
+    if result and result[1] == password:
+        return result[0]  # Mengembalikan user_id jika login berhasil
+    return None
+
+def login():
+    """Fungsi utama untuk proses login."""
+    while True:
+        header()
+
+        # Tanya apakah ingin login atau tidak
+        perintah = input("Apakah Anda ingin Login? [Y/T]: ").lower()
+        if perintah == "t":
+            print("Terimakasih!")
             break
+        elif perintah != "y":
+            print("WARNING !!! Input dengan Format [Y/T]")
+            continue
 
+        print()
+        # Proses input username dan password
+        user = input("\t User \t\t: ").lower()
+        password = getpass.getpass("\t Password \t: ")
 
-# LOGIKA LOGIN
-# if user == "Master" or user == "master" and password == "ptdigi" or password == "PTDIGI":
-#     import menu
-#     print(menu.show_menu())  # JIKA USER DAN PW SUDAH BENAR, MAKA AKAN OTOMATIS BERALIH PADA FILE MENU.PY DAN LANGSUNG MENJALANKAN FUNGSI SHOW_MENU()
-# else:
-#     print("Maaf Username atau Password Salah, Silahkan Coba Lagi")
+        # Validasi username dan password
+        user_id = check_credentials(user, password)
+        if user_id:
+            # Simpan informasi sesi pengguna
+            session_data = {
+                'id': user_id,
+                'username': user,
+                'role': "Admin" if user_id.startswith("ADM") else "User"
+            }
+            session.save_session(session_data)  # Simpan ke sesi
+            print(garis)
+            print()
+            
+            # Tampilkan menu berdasarkan role
+            menu.show_menu()
+            break
+        else:
+            print("\nMaaf Username atau Password Salah, Silahkan Coba Lagi\n")

@@ -12,6 +12,7 @@ from reportlab.platypus import Table , TableStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 import mysql.connector
+import datetime
 
 # Code untuk dapat terkoneksi ke database MySQL
 db = mysql.connector.connect(
@@ -35,19 +36,49 @@ print("Tahun 2024".center(60))
 print(garis) #menampilkan isi dari variable garis
 print()
 
+
+
 #Fungsi Membuat PDF
 def create_pdf(data, total_keseluruhan, pdf_file):
+    # Mendapatkan tanggal dan waktu saat ini
+    current_datetime = datetime.datetime.now()
+
+    # Mendapatkan tanggal hari ini
+    current_date = current_datetime.date()
+
+    # Mendapatkan hari dalam minggu (Senin = 0, Minggu = 6)
+    current_day_of_week = current_datetime.weekday()
+
+    # Konversi hari dalam bentuk teks (ex: 0 = Senin)
+    days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
+    current_day_text = days[current_day_of_week]
+
+
+    # Mendapatkan bulan saat ini
+    current_month = current_datetime.month
+
+    # Konversi bulan ke dalam bentuk teks
+    months = [
+        "Januari", "Februari", "Maret", "April",
+        "Mei", "Juni", "Juli", "Agustus",
+        "September", "Oktober", "November", "Desember"
+    ]
+    current_month_text = months[current_month - 1]
+
+    current_year = current_datetime.year
+
     pdfmetrics.registerFont(TTFont('timesNewRomanBold', 'Times New Roman Bold.ttf'))
     c = canvas.Canvas(pdf_file, pagesize=letter)
     width, height = letter
     # Menambahkan teks ke halaman
     c.setFont("timesNewRomanBold", 12)  # Font dan ukuran teks
-    c.drawString(210, 750, "PROGRAM PENGADAAN BARANG")
+    c.drawString(230, 750, "LAPORAN DATA BARANG")
     c.drawString(265, 730, "PT RADAR IT")
     c.drawString(268, 710, "TAHUN 2024")
     
     # Menambahkan elemen grafis lainnya
-    c.line(100, 700, 500, 700)  # Garis horizontal
+    c.line(80, 700, 540, 700)  # Garis horizontal
+    c.drawString(400,680, f"{current_day_text}, {str(current_date)[0]}{str(current_date)[1]} {current_month_text} {current_year}")
     # Buat tabel di PDF
     table = Table(data)
     table.setStyle(TableStyle([

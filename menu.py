@@ -1,63 +1,90 @@
 # import modul
 import mysql.connector
 from reportlab.pdfgen import canvas 
-# Code untuk dapat terkoneksi ke database MySQL
+import session
+
+# Koneksi ke database MySQL
 db = mysql.connector.connect(
-    host = "localhost",      # host database, biasanya pakai localhost
-    user = "root",           # username MySQL, user biasaya root
-    password = "",           # password MySQL, password disesuaikan, kalo mac biasanya pw sama dengan user
-    database = "python_project_uas"  # Nama database
+    host="localhost",      
+    user="root",           
+    password="",           
+    database="python_project_uas"
 )
 
+# Variabel untuk menampilkan garis
+garis = "=" * 60
+baris = "-" * 60
 
-# variabel untuk menampilkan = & - sebanyak 60
-garis = ("=")*60
-baris = ("-")*60
-#pdf file
+# File PDF untuk laporan
 pdf_file = "laporan_data_barang.pdf"
-# code untuk menampilkan header
 
+# Fungsi untuk menampilkan menu
 def show_menu():
-    print()
-    print(garis)    #menampilkan isi dari variable garis
-    print("Daftar Menu".center(60)) # menampilkan teks Menu berada di tengah dengan format center
+    sesi = session.get_session()
+
+    if not sesi:
+        print("Tidak ada sesi aktif. Harap login terlebih dahulu.")
+        exit()
+
+    role = sesi.get('role')
+    username = sesi.get('username')
+
+    print("\nSelamat Datang,", sesi.get('username').capitalize())
+    print("Hak Akses Anda:", role)
     print(baris)
-    print("1. Data Barang")
-    print("2. Daftar Gudang")
-    print("3. Laporan")
-    print("4. Tentang Kami")
-    print("0. Keluar")
+
+    # Tampilkan menu berdasarkan role
+    if role == "Admin":
+        print("1. Data User")
+        print("2. Data Barang")
+        print("3. Daftar Gudang")
+        print("4. Laporan")
+        print("5. Tentang Kami")
+        print("0. Keluar")
+        valid_menu = {"1", "2", "3", "4", "5", "0"}  # Menu yang valid untuk Admin
+    elif role == "User":
+        print("2. Data Barang")
+        print("3. Daftar Gudang")
+        print("5. Tentang Kami")
+        print("0. Keluar")
+        valid_menu = {"2", "3", "5", "0"}  # Menu yang valid untuk User
     print(baris)
+
+    # Periksa apakah ada data barang di database
     cursor = db.cursor(buffered=True)
     cursor.execute("SELECT * FROM data_barang")
-    if cursor.rowcount == 0 :
-        data = False
-    else: 
-        data = True
+    data = cursor.rowcount > 0  # True jika ada data
     cursor.close()
-    while(True):
-        perintah = input("Pilih Menu : ")
-        if perintah == "1":
+
+    while True:
+        perintah = input("Pilih Menu: ")
+
+        # Validasi apakah menu sesuai dengan hak akses
+        if perintah not in valid_menu:
+            print("Warning!!! Anda tidak dapat membuka akses ke menu ini. Silakan pilih menu yang sesuai.")
+            continue  # Kembali meminta input
+
+        # Logika untuk menu valid
+        if perintah == "1" and role == "Admin":
+            import user
+            user.show_menu(db)
+        elif perintah == "2":
             import barang
-            barang.show_menu(db)  # Hilangkan print()
-        elif perintah == "2" and data:
-            import daftarGudang
-            daftarGudang.show_data(db)  # Hilangkan print()
+            barang.show_menu(db)
         elif perintah == "3" and data:
+            import daftarGudang
+            daftarGudang.show_data(db)
+        elif perintah == "4" and role == "Admin" and data:
             import laporan
-            laporan.show_data(db,pdf_file)  # Jika ada fungsi show_data di laporan
-        elif perintah == "4" :
+            laporan.show_data(db, pdf_file)
+        elif perintah == "5":
             import tentangKami
             tentangKami.cetak()
         elif perintah == "0":
-            print("Keluar dari program. Terimakasih😉")
+            print("Keluar dari program. Terimakasih 😉")
             exit()
-        elif not data and (perintah == "2" or perintah == "3"):
-            print("Data tidak ada, silahkan menambah data terlebih dahulu pada data barang")
-            continue
-        else:
-            print("Warning!!! Masukkan dalam format [1/2/3/4/0]")
-            continue
+        elif not data and perintah in ("3", "4"):
+            print("Data tidak ada, silakan menambah data terlebih dahulu pada menu Data Barang.")
         break
 
 
