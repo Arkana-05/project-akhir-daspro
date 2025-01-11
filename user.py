@@ -128,6 +128,7 @@ def delete_data(db):
 
             if result is None:
                 raise ValueError("ID tidak ditemukan di database!")
+                continue
 
             # Jika ID valid, hapus data
             sql_delete = "DELETE FROM user WHERE id = %s"
@@ -145,6 +146,7 @@ def delete_data(db):
         except Exception as e:
             print(f"Terjadi kesalahan: {e}")
             break
+
     while True:
         perintah = input("Lanjutkan Hapus Data [Y/T] : ").lower()
         if perintah == 'y':

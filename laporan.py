@@ -42,21 +42,15 @@ print()
 def create_pdf(data, total_keseluruhan, pdf_file):
     # Mendapatkan tanggal dan waktu saat ini
     current_datetime = datetime.datetime.now()
-
     # Mendapatkan tanggal hari ini
     current_date = current_datetime.date()
-
     # Mendapatkan hari dalam minggu (Senin = 0, Minggu = 6)
     current_day_of_week = current_datetime.weekday()
-
     # Konversi hari dalam bentuk teks (ex: 0 = Senin)
     days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
     current_day_text = days[current_day_of_week]
-
-
     # Mendapatkan bulan saat ini
     current_month = current_datetime.month
-
     # Konversi bulan ke dalam bentuk teks
     months = [
         "Januari", "Februari", "Maret", "April",
@@ -78,7 +72,7 @@ def create_pdf(data, total_keseluruhan, pdf_file):
     
     # Menambahkan elemen grafis lainnya
     c.line(80, 700, 540, 700)  # Garis horizontal
-    c.drawString(400,680, f"{current_day_text}, {str(current_date)[0]}{str(current_date)[1]} {current_month_text} {current_year}")
+    c.drawString(400,680, f"{current_day_text}, {str(current_date)[8:10]} {current_month_text} {current_year}")
     # Buat tabel di PDF
     table = Table(data)
     table.setStyle(TableStyle([
