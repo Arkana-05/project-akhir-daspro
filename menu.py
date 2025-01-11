@@ -36,15 +36,15 @@ def show_menu():
     # Tampilkan menu berdasarkan role
     if role == "Admin":
         print("1. Data User")
-        print("2. Data Barang")
-        print("3. Daftar Gudang")
-        print("4. Laporan")
+        print("2. Laporan")
+        print("3. Data Barang")
+        print("4. Daftar Gudang")
         print("5. Tentang Kami")
         print("0. Keluar")
         valid_menu = {"1", "2", "3", "4", "5", "0"}  # Menu yang valid untuk Admin
     elif role == "User":
-        print("2. Data Barang")
-        print("3. Daftar Gudang")
+        print("3. Data Barang")
+        print("4. Daftar Gudang")
         print("5. Tentang Kami")
         print("0. Keluar")
         valid_menu = {"2", "3", "5", "0"}  # Menu yang valid untuk User
@@ -68,15 +68,15 @@ def show_menu():
         if perintah == "1" and role == "Admin":
             import user
             user.show_menu(db)
-        elif perintah == "2":
-            import barang
-            barang.show_menu(db)
-        elif perintah == "3" and data:
-            import daftarGudang
-            daftarGudang.show_data(db)
-        elif perintah == "4" and role == "Admin" and data:
+        elif perintah == "2" and  role == "Admin":
             import laporan
             laporan.show_data(db, pdf_file)
+        elif perintah == "3" and data:
+            import barang
+            barang.show_menu(db)
+        elif perintah == "4" and data:
+            import daftarGudang
+            daftarGudang.show_data(db)
         elif perintah == "5":
             import tentangKami
             tentangKami.cetak()

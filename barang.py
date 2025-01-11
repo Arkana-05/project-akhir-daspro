@@ -277,7 +277,12 @@ def tambah_stok(db):
             # Indeks yang digunakan (barang[0], barang[1], dll.) merujuk pada posisi elemen dalam hasil query MySQL (SELECT nama, qty FROM data_barang WHERE id = %s), bukan pada urutan kolom di tabel database.
             print(f"Data Barang ditemukan: {barang[0]}, Stok saat ini: {barang[1]}")
             # f Variabel atau ekspresi Python yang ingin disisipkan dalam string ditempatkan di dalam kurung kurawal {}.
-            stok_tambahan = int(input("Tambah stok : "))
+            while(True):
+                stok_tambahan = int(input("Tambah stok : "))
+                if stok_tambahan <= 0:
+                    print("Nilai Angka, tidak boleh minus")
+                    continue
+                break
 
             # Update stok barang dengan menambahkan stok tambahan
             # Menggunakan qty = qty + %s untuk menambahkan stok_tambahan ke qty yang sudah ada di database.

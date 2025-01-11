@@ -175,6 +175,7 @@ def show_menu(db):
             print(baris)
             print("1. Tambah Data")
             print("2. Hapus Data")
+            print("3. Tampilkan Data")
             print("0. Menu Utama")
             print(baris)
             while(True):
@@ -184,6 +185,8 @@ def show_menu(db):
                     insert_data(db) #JIKA PILIH 1 MAKA AKAN MUNCUL TAMPILAN UNTUK INSERT DATA DAN SETERUSNYA
                 elif (menu == "2"  and data):
                     delete_data(db)
+                elif (menu == "3" and data):
+                    show(db)
                 elif menu == "0":
                     import menu # JIKA PILIH 0, MAKA AKAN BERALIH PADA FILE MENU.PY
                     menu.show_menu()
