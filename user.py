@@ -109,7 +109,7 @@ def show(db):
     else:
         print("Data User".center(60))
         # Header tabel
-        headers = ["ID","Username", "Password"]
+        headers = ["ID","Username", "Password","Role"]
         print(tabulate(result, headers=headers, tablefmt="pretty"))
 
 
