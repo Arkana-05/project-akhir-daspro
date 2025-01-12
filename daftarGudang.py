@@ -51,6 +51,10 @@ def detail_data(db):
     
     while True:  # Perulangan untuk mengulang input jika kode tidak ditemukan
         keyword = input("Lihat Detail [Kode] : ")
+
+        if not keyword:  # Jika keyword kosong
+            print("Warning!!! Masukkan Kode atau Nama Barang yang Valid.")
+            continue  # Ulangi perulangan tanpa menjalankan query SQL
         
         # Query SQL untuk mencari kode atau nama barang yang sesuai dengan keyword
         sql = "SELECT kode, nama, qty, harga, total FROM data_barang WHERE kode LIKE %s OR nama LIKE %s"
@@ -92,6 +96,7 @@ def detail_data(db):
                 if perintah == "y":
                     import menu
                     menu.show_menu() # menampilkan daftr menu di file menu.pyz
+                    break
                 elif perintah == 't':
                     show_data(db)
                     break # dan akan berhenti jika pengguna menginput 't'
