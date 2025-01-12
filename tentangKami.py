@@ -8,7 +8,7 @@ def cetak():
     print("Program pengadaan barang".upper().center(60)) 
     #menampilkan kata program ... dengan huruf kapital semua(upper) dan di setting ada di tengah dengan code center(60), angka 60 di samakan dengan banyaknya garis/baris di atas. 
     print("PT RADAR IT".center(60))
-    print("Tahun 2024".center(60))
+    print("Tahun 2025".center(60))
     print(garis) #menampilkan isi dari variable garis
     print()
 
@@ -83,5 +83,7 @@ def show_data():
         else:
             print("Warning!!! Masukkan dalam format [Y/T]")
             show_data()
-cetak()
-show_data()
+        break
+
+if __name__ == "__main__":
+    cetak()

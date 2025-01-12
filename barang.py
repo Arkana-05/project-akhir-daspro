@@ -100,7 +100,7 @@ def show_data(db):
     else:
         print("Data Barang".center(60))
         # Header tabel
-        headers = ["ID","Kode", "Nama Barang", "Quantity", "Harga Satuan", "Total"]
+        headers = ["ID","Kode", "Nama Barang", "Quantity", "Harga Satuan"]
                 # Format data untuk kolom Harga Satuan dan Total ke format Rupiah dengan pemisah titik
         formatted_result = [
             [
@@ -109,9 +109,10 @@ def show_data(db):
                 row[2], 
                 row[3],
                 f"Rp {int(row[4]):,}".replace(",", ".")   # Format Total
+                # mengubah nilai int menjadi format string dengan pemisah ribuan & Mengganti koma dengan titik
             ] 
             for row in result
-            # memproses setiap elemen dalam result satu per satu,
+            # memproses setiap elemen dalam variable result satu per satu.
         ]
 
         # Tampilkan data dalam bentuk tabel menggunakan modul tabulate
@@ -160,7 +161,10 @@ def update_data(db):
 
     # Query untuk mengupdate data
     sql = "UPDATE data_barang SET kode=%s, nama=%s, qty=%s, harga=%s, total=%s WHERE id=%s"
+    # %s adalah placeholder yang nantinya akan di isi dengan inputan yang baru
+    # WHERE id=%s berarti kita hanya memperbaharui data yang memiliki id yg kita inginkan
     value = (kode_barang, nama_barang, qty_barang, harga_barang, total, _id)
+    # _id digunakan untuk menenntukan data yg akan di edit berdasarkan id barang
     cursor.execute(sql, value)
     db.commit()
 
@@ -233,6 +237,8 @@ def search_data(db):
     cursor = db.cursor()
     keyword = input("Masukkan Kata Kunci : ")
     sql = "SELECT kode, nama, qty, harga, total FROM data_barang WHERE kode LIKE %s OR nama LIKE %s OR qty LIKE %s OR harga LIKE %s "
+    # mencari data barang berdasarkan kata kunci dari kolom kode, nama, qty dan harga
+    # LIKE adalah operator untuk mencocokkan kata kunci yg ingin dicari
     value = ("%{}%".format(keyword), "%{}%".format(keyword), "%{}%".format(keyword), "%{}%".format(keyword),)
     # fungsi %% berfungsi untuk menampilkan kata kunci berdasarkan kata kunci yang sudah di inputkan
     cursor.execute(sql, value)
@@ -327,6 +333,7 @@ def hapus_stock(db):
                 try:
                     stok_keluar = int(input("Pengeluaran stok: "))
                   
+                    # Periksa apakah stok tambahan melebihi stok yang ada
                     if stok_keluar > barang[1]:
                         print(f"Stok barang hanya {barang[1]}, silakan ulangi kembali.")
                     elif barang[1] - stok_keluar <= 0:
@@ -335,10 +342,11 @@ def hapus_stock(db):
                         print("Jumlah pengeluaran stok harus lebih dari 0, silakan ulangi.")
                     
                     else:
+                        # Update stok barang dengan mengurangi stok tambahan
                         cursor.execute("UPDATE data_barang SET qty = qty - %s WHERE id = %s", (stok_keluar, id_barang))
                         db.commit()
                         print(f"Stok barang berhasil dikurangi! Stok terbaru: {barang[1] - stok_keluar}")
-                        break  
+                        break  #Keluar dari perulangan setelah berhasi
                 except ValueError:
                     print("Input tidak valid, silakan masukkan angka.")
 

@@ -84,31 +84,20 @@ def detail_data(db):
             # Menjumlahkan total dari semua barang
             total_keseluruhan = sum(int(row[4]) for row in result)  # row[4] adalah kolom 'total' berdasarkan tabel yang ada di database
             
-            # Menampilkan total keseluruhan di bawah tabel
+           # Menampilkan total keseluruhan di bawah tabel
             print(f"Total Keseluruhan: Rp.{total_keseluruhan:,.0f}".replace(",", "."))
             # perulangan yang akan terus berulang setiap kali detail barang di tampilkan
             while True:
                 perintah = input("Kembali ke Menu [Y/T]: ").lower()
                 if perintah == "y":
-                    while(True):
-                        perintah = input("Tampilkan Menu Utama [Y/T] : ").lower()
-                        if perintah == 'y':
-                            import menu
-                            menu.show_menu()
-                            break
-                        elif perintah == 't':
-                            print("Terimakasih")
-                        else:
-                            print("Warning!!! Masukkan dalam format [Y/T]")
-                        import menu
-                        menu.show_menu() # menampilkan daftr menu di file menu.py
-                        break
-                    continue
+                    import menu
+                    menu.show_menu() # menampilkan daftr menu di file menu.pyz
                 elif perintah == 't':
                     show_data(db)
                     break # dan akan berhenti jika pengguna menginput 't'
                 else:
                     print("Warning!!! Masukkan dalam format [Y/T]")
+                break
 
 
 detail_data(db)

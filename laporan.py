@@ -32,7 +32,7 @@ print()
 print("Program pengadaan barang".upper().center(60)) 
 #menampilkan kata program ... dengan huruf kapital semua(upper) dan di setting ada di tengah dengan code center(60), angka 60 di samakan dengan banyaknya garis/baris di atas. 
 print("PT RADAR IT".center(60))
-print("Tahun 2024".center(60))
+print("Tahun 2025".center(60))
 print(garis) #menampilkan isi dari variable garis
 print()
 
@@ -68,7 +68,7 @@ def create_pdf(data, total_keseluruhan, pdf_file):
     c.setFont("timesNewRomanBold", 12)  # Font dan ukuran teks
     c.drawString(230, 750, "LAPORAN DATA BARANG")
     c.drawString(265, 730, "PT RADAR IT")
-    c.drawString(268, 710, "TAHUN 2024")
+    c.drawString(268, 710, "TAHUN 2025")
     
     # Menambahkan elemen grafis lainnya
     c.line(80, 700, 540, 700)  # Garis horizontal

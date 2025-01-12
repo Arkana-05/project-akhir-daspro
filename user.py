@@ -109,7 +109,7 @@ def show(db):
     else:
         print("Data User".center(60))
         # Header tabel
-        headers = ["ID","Username", "Password","Role"]
+        headers = ["ID/Kode","Username", "Password","Role"]
         print(tabulate(result, headers=headers, tablefmt="pretty"))
 
 
@@ -128,7 +128,6 @@ def delete_data(db):
 
             if result is None:
                 raise ValueError("ID tidak ditemukan di database!")
-                continue
 
             # Jika ID valid, hapus data
             sql_delete = "DELETE FROM user WHERE id = %s"
@@ -194,7 +193,7 @@ def show_menu(db):
                     print("Data tidak tersedia, silahkan tambah data terlebih dahulu")
                     continue
                 else:
-                    print("Warning!!! Masukkan dalam format [0-2]")
+                    print("Warning!!! Masukkan dalam format [0-3]")
                     continue
                 break
         elif perintah == "t":
